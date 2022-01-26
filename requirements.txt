@@ -1,0 +1,4 @@
+discord~=1.7.3
+loguru~=0.5.3
+requests
+python-dotenv~=0.19.2
