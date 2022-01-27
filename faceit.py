@@ -42,6 +42,14 @@ class FaceitData:
         else:
             return None
 
+    def get_funstat(self, playerid: str):
+        url = os.path.join(self.base_url, f"players/{playerid}/stats/csgo")
+        res = requests.get(url, headers=self.headers)
+        if res.status_code == 200:
+            return json.loads(res.content.decode('utf-8'))
+        else:
+            return None
+
 
 if __name__ == "__main__":
     # An example

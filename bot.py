@@ -41,6 +41,39 @@ async def get_stat_faceit(ctx, username):
         response = f"**{username.capitalize()}** Level {level} {emojis[int(level)]}"
         await ctx.send(response)
 
+@bot.command(name='stat', help='Get fun stats!')
+async def get_stat_faceit(ctx):
+    playerids = json.loads(os.environ['PLAYERIDS'])
+    usernames = json.loads(os.environ['USERNAMES'])
+
+    if len(playerids) == 0 or len(usernames) == 0:
+        logger.error("Please define a set of playerids/usernames in `.env`!")
+        return None
+
+    emojis = {1: "🤮", 2: "💩", 3: "😐", 4: "😁", 5: "🎖", 6: "🥷 ", 7: "🤴🏻", 8: "🥇", 9: "🥇", 10: "🥇"}
+
+    mapping_usernames = {uname: pid for uname, pid in zip(usernames, playerids)}
+
+    data = {}
+
+    for uname, pid in mapping_usernames.items():
+        stat = fd.get_funstat(pid)
+        avg_winrate = stat['lifetime']['Win Rate %']
+        longest_winstreak = stat['lifetime']['Longest Win Streak']
+        current_winstreak = stat['lifetime']['Current Win Streak']
+        avg_kd = stat['lifetime']['Average K/D Ratio']
+        avg_headshots = stat['lifetime']['Average Headshots %']
+        data[uname] = {"kd": avg_kd, 
+                            "hd": avg_headshots,
+                            "lw": longest_winstreak,
+                            "cw": current_winstreak,
+                            "wr": avg_winrate,
+                            "avg_headshots": avg_headshots}
+
+    output_txt = [f"*{user.capitalize().strip()}*: Winstreak (current/record): **{d['cw']}/{d['lw']}**  -  K/D: **{d['kd']}** - Headshots **{d['hd']}%** - Winrate **{d['wr']}%**"  for user, d in data.items()]
+    output_txt = "\n".join(output_txt)
+    await ctx.send(output_txt)
+
 
 @bot.command(name='99', help='Responds with a random quote from Brooklyn 99')
 async def nine_nine(ctx):
