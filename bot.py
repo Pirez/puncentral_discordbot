@@ -20,17 +20,18 @@ async def get_stat_faceit(ctx, username):
         logger.error("Please define a set of usernames in `.env`!")
         return None
 
-    emojis = {1: "🤮", 2: "💩", 3: "😀", 4: "😈", 5: "🎖", 6: "🥷", 7: "🤴🏻", 8: "🥇", 9: "🥇", 10: "🥇"}
+    emojis = {1: "🤮", 2: "💩", 3: "😐", 4: "😁", 5: "🎖", 6: "🥷 ", 7: "🤴🏻", 8: "🥇", 9: "🥇", 10: "🥇"}
 
     if username == "all":
         data = {}
 
         for username in usernames:
             stat = fd.get_userstat(username)
-            level = stat['items'][0]['games'][0]['skill_level']
-            data[username] = level
+            skill_level = stat['games']['csgo']['skill_level']
+            elo = stat['games']['csgo']['faceit_elo']
+            data[username] = {"lvl": skill_level, "elo": elo}
         
-        output_txt = [f"**{user}** Level {level} {emojis[int(level)]}" for user, level in data.items()]
+        output_txt = [f" {emojis[int(d['lvl'])]} - {user.capitalize()} Level: **{d['lvl']}** (*{d['elo']}*)" for user, d in data.items()]
         output_txt = "\n".join(output_txt)
         await ctx.send(output_txt)
 

@@ -35,7 +35,7 @@ class FaceitData:
         logger.info("Init Faceit!")
 
     def get_userstat(self, username: str):
-        url = os.path.join(self.base_url, f"search/players?nickname={username}")
+        url = os.path.join(self.base_url, f"players?nickname={username}&game=csgo")
         res = requests.get(url, headers=self.headers)
         if res.status_code == 200:
             return json.loads(res.content.decode('utf-8'))
@@ -45,11 +45,12 @@ class FaceitData:
 
 if __name__ == "__main__":
     # An example
-    username = "DrWho"
+    username = "Togmannen"
     fd = FaceitData()
     stat = fd.get_userstat(username)
-    level = stat['items'][0]['games'][0]['skill_level']
+    skill_level = stat['games']['csgo']['skill_level']
+    elo = stat['games']['csgo']['faceit_elo']
     logger.info(f"{stat}")
-    logger.info(f"{level}")
+    logger.info(f"{username} - {skill_level} - {elo}")
     
 
