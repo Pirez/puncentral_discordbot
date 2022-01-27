@@ -37,7 +37,7 @@ async def get_stat_faceit(ctx, username):
     else:
         stat = fd.get_userstat(username)
         level = stat['items'][0]['games'][0]['skill_level']
-        response = f"**{username.capitalize()}** Level {emojis[int(level)]}"
+        response = f"**{username.capitalize()}** Level {level} {emojis[int(level)]}"
         await ctx.send(response)
 
 
