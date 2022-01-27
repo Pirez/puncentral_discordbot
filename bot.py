@@ -30,7 +30,6 @@ async def get_stat_faceit(ctx, username):
             level = stat['items'][0]['games'][0]['skill_level']
             data[username] = level
         
-        data = sorted(data, key=data.get, reverse=True)
         output_txt = [f"**{user}** Level {level} {emojis[int(level)]}" for user, level in data.items()]
         output_txt = "\n".join(output_txt)
         await ctx.send(output_txt)
