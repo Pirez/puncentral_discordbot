@@ -21,17 +21,19 @@ async def get_stat_faceit(ctx, username):
         return None
 
     emojis = {1: "🤮", 2: "💩", 3: "😐", 4: "😁", 5: "🎖", 6: "🥷 ", 7: "🤴🏻", 8: "🥇", 9: "🥇", 10: "🥇"}
-
+    emojis_lastmatch = {0: "⬇️", 1: "⬆️"}
     if username == "all":
         data = {}
-
-        for username in usernames:
+        lastmatch = {}
+        playerids = json.loads(os.environ['PLAYERIDS'])
+        for username, pid in zip(usernames, playerids):
             stat = fd.get_userstat(username)
+            stat_detail = fd.get_funstat(pid)
             skill_level = stat['games']['csgo']['skill_level']
             elo = stat['games']['csgo']['faceit_elo']
-            data[username] = {"lvl": skill_level, "elo": elo}
+            data[username] = {"lvl": skill_level, "elo": elo, "lm": int(stat_detail['lifetime']['Recent Results'][-1])}        
         
-        output_txt = [f" {emojis[int(d['lvl'])]} - {user.capitalize()} Level: **{d['lvl']}** (*{d['elo']}*)" for user, d in data.items()]
+        output_txt = [f" {emojis[int(d['lvl'])]} - {user.capitalize()} Level: **{d['lvl']}** (*{d['elo']}*) {emojis_lastmatch[d['lm']]}" for user, d in data.items()]
         output_txt = "\n".join(output_txt)
         await ctx.send(output_txt)
 
