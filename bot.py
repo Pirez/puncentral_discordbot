@@ -21,7 +21,7 @@ async def get_stat_faceit(ctx, username):
         return None
 
     emojis = {1: "🤮", 2: "💩", 3: "😐", 4: "😁", 5: "🎖", 6: "🥷 ", 7: "🤴🏻", 8: "🥇", 9: "🥇", 10: "🥇"}
-    emojis_lastmatch = {0: "⬇️", 1: "⬆️"}
+    emojis_lastmatch = {0: "↓", 1: "↑"}
     if username == "all":
         data = {}
         lastmatch = {}
