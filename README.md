@@ -10,5 +10,16 @@ Please provide a `.env`  file with these following parameters:
 DISCORD_TOKEN=".."
 FACEIT_TOKEN=".."
 USERNAMES='["DrWho", "KingKong", "Godzilla"]'
-DEBUG=False
+PLAYERIDS='["5f243f5d-5581", "f3a026b0-9781-4312",  "c3337570-16fb-462e"]'
+GAMERIDS='["11743", "8068939", "7431"]'
+CHANNEL_ID=786
+WEBHOOK_SECRET_TOKEN=".."
+QUERY_TOKEN=".."
+DEBUG=True
 ```
+
+## Services
+
+* Discord Bot server
+* Flask WebHook Listener
+* Ngork tunnel
