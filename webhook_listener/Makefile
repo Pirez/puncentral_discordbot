@@ -1,4 +1,5 @@
 build:
+	cp ../faceit.py .
 	docker build -t puncentralbot_webhook_listen .
 
 run:
