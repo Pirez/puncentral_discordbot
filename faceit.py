@@ -42,6 +42,15 @@ class FaceitData:
         else:
             return None
 
+    def get_userstat_gamerid(self, gamerid: str):
+        url = os.path.join(self.base_url, f"players?game_player_id={gamerid}&game=csgo")
+        res = requests.get(url, headers=self.headers)
+        if res.status_code == 200:
+            return json.loads(res.content.decode('utf-8'))
+        else:
+            return None
+
+
     def get_funstat(self, playerid: str):
         url = os.path.join(self.base_url, f"players/{playerid}/stats/csgo")
         res = requests.get(url, headers=self.headers)
@@ -49,6 +58,15 @@ class FaceitData:
             return json.loads(res.content.decode('utf-8'))
         else:
             return None
+
+    def get_match_stat(self, matchid: str):
+        url = os.path.join(self.base_url, f"matches/{matchid}/stats")
+        res = requests.get(url, headers=self.headers)
+        if res.status_code == 200:
+            return json.loads(res.content.decode('utf-8'))
+        else:
+            return None
+
 
 
 if __name__ == "__main__":
