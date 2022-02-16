@@ -18,6 +18,12 @@ QUERY_TOKEN=".."
 DEBUG=True
 ```
 
+For the ngrok service you need to provide these environment variables:
+```
+export NGROK_HOSTNAME="....ngork.io"
+export NGROK_AUTH_TOKEN="<TOKEN>"
+```
+
 ## Services
 
 * Discord Bot server
