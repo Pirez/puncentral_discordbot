@@ -13,7 +13,7 @@ fd = FaceitData()
 load_dotenv(override=True)
 bot = commands.Bot(command_prefix='!')
 
-@bot.command(name='lvl', help='Get lvl stat, example: !lvl Stutmunn or !lvl all')
+@bot.command(name='lvl', help='Get lvl stat, example: !lvl Stutmunn or !lvl all or !lvl fact')
 async def get_stat_faceit(ctx, username):
     usernames = json.loads(os.environ['USERNAMES'])
     if len(usernames) == 0:
@@ -36,7 +36,15 @@ async def get_stat_faceit(ctx, username):
         output_txt = [f" {emojis[int(d['lvl'])]} - {user.capitalize()} Level: **{d['lvl']}** (*{d['elo']}*) {emojis_lastmatch[d['lm']]}" for user, d in data.items()]
         output_txt = "\n".join(output_txt)
         await ctx.send(output_txt)
-
+    elif username == "fact":
+        output_txt = ""
+        lvl_range = [0, 800, 950, 1100, 1250, 1400, 1550, 1700, 1850, 2000, "♾️"]
+        for i in range(len(lvl_range)-1):
+            output_txt += f"Level **{i+1}**: {lvl_range[i]}-{lvl_range[i+1]} \n"
+        await ctx.send(output_txt)
+    elif username == "help":
+        output_txt = "You have *!lvl all*, *!lvl fact*, or *!lvl <username>* as options"
+        await ctx.send(output_txt)
     else:
         stat = fd.get_userstat(username)
         level = stat['items'][0]['games'][0]['skill_level']
